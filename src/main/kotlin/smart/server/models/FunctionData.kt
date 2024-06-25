@@ -4,7 +4,7 @@ package smart.server.models
 data class FunctionHumidityData(
     val idRoom: Int,
     val enableFunctions: Array<String>,
-    val humidity: Double
+    var humidity: Double
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -27,7 +27,7 @@ data class FunctionHumidityData(
 data class FunctionLightsData(
     val idRoom: Int,
     val enableFunctions: Array<String>,
-    val lights: Double
+    var lights: Double
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -50,7 +50,7 @@ data class FunctionLightsData(
 data class FunctionTemperatureData(
     val idRoom: Int,
     val enableFunctions: Array<String>,
-    val temperature: Double
+    var temperature: Double
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -69,3 +69,9 @@ data class FunctionTemperatureData(
         return result
     }
 }
+
+data class FunctionHumidityDataRequest(val idRoom: Int, val humidity: Double) {}
+
+data class FunctionLightsDataRequest(val idRoom: Int, val lights: Double) {}
+
+data class FunctionTemperatureDataRequest(val idRoom: Int, val temperature: Double) {}

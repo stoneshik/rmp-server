@@ -2,17 +2,13 @@ package smart.server.controllers
 
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RestController
-import smart.server.models.FunctionHumidityData
-import smart.server.models.FunctionLightsData
-import smart.server.models.FunctionTemperatureData
+import org.springframework.web.bind.annotation.*
+import smart.server.models.*
 
 
 @RestController
 class FunctionHumidityDataController {
-    private val dataMap = mapOf(
+    private var dataMap = mapOf(
         "1" to FunctionHumidityData(1, arrayOf("humidity_room", "lights_room", "temperature_room"), 40.0),
         "2" to FunctionHumidityData(2, arrayOf("humidity_room", "lights_room", "temperature_room"), 41.0),
         "3" to FunctionHumidityData(3, arrayOf("humidity_room", "lights_room", "temperature_room"), 42.0),
@@ -24,6 +20,11 @@ class FunctionHumidityDataController {
     fun getFunctionHumidityData(@PathVariable("id") id: String): ResponseEntity<FunctionHumidityData> {
         val data = dataMap[id]
         return ResponseEntity(data, HttpStatus.OK)
+    }
+
+    @PostMapping("/humidity-data")
+    fun postFunctionHumidityData(@RequestBody functionHumidityDataRequest: FunctionHumidityDataRequest) {
+        dataMap[functionHumidityDataRequest.idRoom.toString()]!!.humidity = functionHumidityDataRequest.humidity
     }
 }
 
@@ -42,6 +43,11 @@ class FunctionLightsDataController {
         val data = dataMap[id]
         return ResponseEntity(data, HttpStatus.OK)
     }
+
+    @PostMapping("/lights-data")
+    fun postFunctionLightsData(@RequestBody functionLightsDataRequest: FunctionLightsDataRequest) {
+        dataMap[functionLightsDataRequest.idRoom.toString()]!!.lights = functionLightsDataRequest.lights
+    }
 }
 
 @RestController
@@ -58,5 +64,10 @@ class FunctionTemperatureDataController {
     fun getFunctionTemperatureData(@PathVariable("id") id: String): ResponseEntity<FunctionTemperatureData> {
         val data = dataMap[id]
         return ResponseEntity(data, HttpStatus.OK)
+    }
+
+    @PostMapping("/temperature-data")
+    fun postFunctionTemperatureData(@RequestBody functionTemperatureDataRequest: FunctionTemperatureDataRequest) {
+        dataMap[functionTemperatureDataRequest.idRoom.toString()]!!.temperature = functionTemperatureDataRequest.temperature
     }
 }
